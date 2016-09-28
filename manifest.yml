@@ -6,3 +6,4 @@ applications:
   name: iapple
   host: iapple
   disk_quota: 1024M
+  buildpack: python_buildpack
