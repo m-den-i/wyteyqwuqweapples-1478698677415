@@ -1,7 +1,8 @@
 import os
 import cloudant
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import random
+from watson_developer_cloud import AlchemyLanguageV1
 
 app = Flask(__name__)
 
@@ -13,11 +14,30 @@ client = cloudant.Cloudant(username, password, account=username, url=url)
 client.connect()
 db = client['ibase']
 
+alchemy_key = os.environ.get('ALCHEMY_KEY', '')
+
 
 @app.route('/')
 def Welcome():
     docs = [doc for doc in db]
     return render_template('index.html', joke=random.choice(docs))
+
+
+@app.route('/recognize', methods=['GET', 'POST'])
+def extract_entity():
+    kwargs = {}
+    if request.method == 'POST':
+        alchemy_language = AlchemyLanguageV1(api_key=alchemy_key)
+
+        response = alchemy_language.combined(
+            text=request.values['text'],
+            extract='entities',
+        )
+        kwargs = {
+            'sentence': request.values['text'],
+            'result': response['entities'],
+        }
+    return render_template('alchemy.html', **kwargs)
 
 
 port = os.getenv('PORT', '5000')
