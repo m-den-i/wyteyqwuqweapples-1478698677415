@@ -86,3 +86,11 @@ pre {
 	padding: 0;
 	margin: 0;
 }
+
+.apple-name {
+	color: black;
+}
+
+.slide-text {
+	text-align: left;
+}

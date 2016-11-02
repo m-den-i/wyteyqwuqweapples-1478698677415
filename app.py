@@ -15,6 +15,12 @@ client.connect()
 db = client['ibase']
 
 alchemy_key = os.environ.get('ALCHEMY_KEY', '')
+apples = [doc for doc in db if doc.get('type', '') == 'apple']
+
+
+@app.route('/')
+def index():
+    return render_template('index.html', apples=apples)
 
 
 @app.route('/joke')
