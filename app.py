@@ -17,10 +17,10 @@ db = client['ibase']
 alchemy_key = os.environ.get('ALCHEMY_KEY', '')
 
 
-@app.route('/')
-def Welcome():
+@app.route('/joke')
+def joke():
     docs = [doc for doc in db]
-    return render_template('index.html', joke=random.choice(docs))
+    return render_template('joke.html', joke=random.choice(docs))
 
 
 @app.route('/recognize', methods=['GET', 'POST'])
