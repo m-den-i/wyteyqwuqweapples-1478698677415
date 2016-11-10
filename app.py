@@ -15,7 +15,7 @@ client.connect()
 db = client['ibase']
 
 alchemy_key = os.environ.get('ALCHEMY_KEY', '')
-apples = [doc for doc in db if doc.get('type', '') == 'apple']
+apples = [{'price': random.randint(10, 25), **doc} for doc in db if doc.get('type', '') == 'apple']
 
 
 @app.route('/')
@@ -44,6 +44,11 @@ def extract_entity():
             'result': response['entities'],
         }
     return render_template('alchemy.html', **kwargs)
+
+
+@app.route('/apples/<int:apple_id>', methods=['GET', 'POST'])
+def buy_apple(apple_id):
+    return render_template('apple.html', apple=apples[apple_id])
 
 
 port = os.getenv('PORT', '5000')

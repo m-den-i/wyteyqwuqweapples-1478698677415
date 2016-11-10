@@ -20,7 +20,6 @@
 
 
 <table>
-  {% for apple in apples %}
   <tr>
     <td class='description' style="background-color: white">
       <img src="{{apple.url}}" width="100%"/>
@@ -30,13 +29,12 @@
     <td>{{ apple.text | safe }}
       <p><span>Price: {{apple.price}}$</span></p>
 
-      <form method="get" action="/apples/{{ loop.index }}">
+      <form method="get" action="/apples/{{ apple.ind }}">
         <button type="submit">Buy it!</button>
       </form>
     </td>
   </tr>
 
-  {% endfor %}
 </table>
 
 </body>
